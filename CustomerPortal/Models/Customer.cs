@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 
 namespace CustomerPortal.Models
 {
@@ -35,13 +36,14 @@ namespace CustomerPortal.Models
                     SqlCommand command = new SqlCommand("ValidateCustomer", connection);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@customerid", CustomerId);
-                    command.Parameters.AddWithValue("@customerpass", CustomerPassword);
+                    command.Parameters.AddWithValue("@customerpass", CustomerPassword); 
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
                             isValid = (bool)reader["IsValid"];
+                            CustomerName = reader["CustomerName"].ToString();
                             
                         }
                         else
@@ -64,13 +66,58 @@ namespace CustomerPortal.Models
                
                
             } 
-            catch (Exception ex)
+            catch (Exception)
             {
+                
                 return false;
             }
                
               
        }
+
+        public string CustomerRegister()
+        {
+            string query = "select CustomerId from Customer";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(server))
+                {
+                    SqlCommand cmd = new SqlCommand(query,connection);
+                    cmd.CommandType = CommandType.Text;
+                    connection.Open();
+                    
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        if (CustomerId == (reader["CustomerId"].ToString()))
+                        {
+                            string Alert = "Customer Id is already taken Try different Id";
+                            return Alert;
+                        }
+                    }
+                    connection.Close();
+                    string InsertQuery = @"INSERT INTO [dbo].[Customer]([CustomerName],[CustomerEmail],[CustomerPhone],[customerId],[CustomerPassword])VALUES(@CustomerName,@CustomerEmail,@CustomerPhone,@CustomerId,@CustomerPassword)";
+                    cmd.CommandText = InsertQuery;
+                    SqlCommand sqlCommand = new SqlCommand(InsertQuery,connection);
+                    cmd.Parameters.AddWithValue("@CustomerName",CustomerName);
+                    cmd.Parameters.AddWithValue("@CustomerEmail",CustomerEmail);
+                    cmd.Parameters.AddWithValue("@CustomerPhone",CustomerPhone);
+                    cmd.Parameters.AddWithValue("@customerId",CustomerId);
+                    cmd.Parameters.AddWithValue("@CustomerPassword",CustomerPassword);
+                    connection.Open();
+                    int x=cmd.ExecuteNonQuery();
+                    connection.Close();
+                    if (x == 1) return "success";
+                    else return "Failed";
+;                    
+                } 
+            }
+            catch(Exception ex) 
+            {
+                return "System Error: "+ ex.Message;
+            }
+            
+        }
         
     }
 }

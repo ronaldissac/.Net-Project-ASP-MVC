@@ -6,7 +6,7 @@
 @if (TempData["Errormsg"] !=null)
             {
                 <script>
-                    alert('Invalid Login ID / Password !');
+                    alert('@TempData["Errormsg"]');
                 </script>
             }
 <!DOCTYPE html>
@@ -16,16 +16,11 @@
     <title>CustomerLogin</title>
     <link rel="stylesheet" href="~/Css/Login.css" />
     <script src="~/Js Script/Login.js"></script>
-    <style>
-        .signup{
-            display: block
-        }
-    </style>
 </head>
 <body>
     <div class="header">
         <div>
-            <a href="~/Controllers/LoginController/CustomerLogin">
+            <a href="@Url.Action("CustomerLogin", "Login")">
                 <img src="~/Image/Logo.png" height="60" width="150" />
             </a>
         </div>
@@ -35,6 +30,7 @@
     </div>
     @using (Html.BeginForm("CustomerLogin", "Login", FormMethod.Post, new { onsubmit = "return valid()" }))
     {
+        
         <section id="formsContainer" class="container forms">
             <div class="form login">
                 <div class="form-content">
@@ -47,7 +43,7 @@
                             <i class='bx bx-hide eye-icon'></i>
                         </div>
                         <div class="form-link">
-                            <a href="#" class="forgot-pass">Forgot password?</a>
+                            @Html.ActionLink("New Customer? Register", "Register", "Login")
                         </div>
                         <div class="field button-field">
                             <button type="submit" value="save">Login</button>
