@@ -9,7 +9,7 @@
 
 </head>
 <body>
-    <div class="">
+    <div class="back-img img-fluid">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-secondary">
             <div class="container">
                 @Html.ActionLink("Omega Shipping", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
@@ -29,7 +29,7 @@
                 <div style="color:whitesmoke">
                     Welcome @Session["customerName"] 👋 &nbsp;
                     <a href="@Url.Action("Contact", "Home")"><img src="~/Image/Profile.png" height="20" width="20" /></a>
-                    <div id="sessionCountdown"></div>
+                    <label id="sessionCountdown"></label>
                 </div>
             </div>
         </nav>
@@ -45,8 +45,29 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+    function updateSessionCountdown() {
+        var countdownElement = document.getElementById('sessionCountdown');
+        var sessionTimeoutMinutes = @Session["TimeOut"]; // Access session timeout directly from Session
+            countdownElement.innerText = 'Time left: ' + sessionTimeoutMinutes + ' min';
+
+
+            sessionTimeoutMinutes--;
+            setTimeout(update, 60000); // 60000 milliseconds = 1 minute
+        }
+
+        update();
+    }
+
+    // Call the function to start the countdown
+    updateSessionCountdown();
+    </script>
+
     <style>
         .back-img {
+            background-image: url('../Image/shippic.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
         }
     </style>
 </body>

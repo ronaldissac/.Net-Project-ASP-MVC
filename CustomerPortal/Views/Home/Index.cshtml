@@ -1,6 +1,41 @@
-﻿@model.CustomerPortal.Models.Customer
-<main>
-    <div class="body-content img-thumbnail">
-       
-    </div>
-</main>
+﻿@model CustomerPortal.Models.Customer
+
+<main class="body-content">
+@using (Ajax.BeginForm("Edit", "Customer", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "customer-edit-result",
+    OnSuccess = "editSuccess"
+}))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.LabelFor(model => model.CustomerName)
+    @Html.EditorFor(model => model.CustomerName)
+
+    @Html.LabelFor(model => model.CustomerEmail)
+    @Html.EditorFor(model => model.CustomerEmail)
+
+    @Html.LabelFor(model => model.CustomerPhone)
+    @Html.EditorFor(model => model.CustomerPhone)
+
+    @Html.LabelFor(model => model.CustomerId)
+    @Html.DisplayFor(model => model.CustomerId) <!-- Display the CustomerId (read-only) -->
+
+    @Html.LabelFor(model => model.CustomerPassword)
+    @Html.EditorFor(model => model.CustomerPassword)
+
+    <input type="submit" value="Save" />
+}
+
+<div id="customer-edit-result"></div>
+    </main>
+<script>
+    function editSuccess(data) {
+        if (data === "success") {
+            // Handle success, e.g., close modal or update UI
+        } else {
+            // Handle failure, display an error message, etc.
+        }
+    }
+</script>

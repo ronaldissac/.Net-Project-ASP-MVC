@@ -29,12 +29,12 @@ namespace CustomerPortal.Controllers
         {
             if(customer.Validation() == true)
             {
-                
-                ViewBag.SessionTimeout = true;
+
+                Session["TimeOut"] = HttpContext.Session.Timeout;
                 Session["customerID"] = customer.CustomerId;
                 Session["customerName"] = customer.CustomerName;
                 FormsAuthentication.SetAuthCookie(customer.CustomerId,true);
-                return RedirectToAction("index", "Home");
+                return RedirectToAction("index", "Home",customer.CustomerId);
                 
             }
             else

@@ -9,7 +9,7 @@
 body {
     background-image: url('../Image/shippic.jpg');
     background-repeat: no-repeat;
-    background-size: cover; /* Adjust as needed */
+    background-size: cover; 
 }
 
 /*body {

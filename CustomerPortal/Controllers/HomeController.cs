@@ -9,9 +9,11 @@ namespace CustomerPortal.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        [Authorize]
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Index(string ID)
         {
+
+
             return View();
         }
 
