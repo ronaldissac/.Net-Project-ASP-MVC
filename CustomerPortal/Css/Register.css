@@ -9,7 +9,7 @@
 body {
     background-image: url('../Image/shippic.jpg');
     background-repeat: no-repeat;
-    background-size:cover; /* Adjust as needed */
+    background-size: cover; 
 }
 
 /*body {
@@ -27,6 +27,7 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
+
 }
 
 /* Rest of your CSS styles */
@@ -47,7 +48,7 @@ body {
         color: royalblue;
         padding: 10px;
         width: 100%;
-        margin-top: -5px;
+        margin-top: 5px;
         border-radius: 4px;
         box-sizing: border-box;
         text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -98,7 +99,7 @@ body {
 .login-section {
     position: fixed;
     opacity: 0.9;
-    top: 80px;
+    top: 70px;
     right: 100px;
     height: 325px;
     width: 350px;
@@ -185,7 +186,7 @@ th, td {
 }
 
 .container {
-    height: 70vh;
+    height: 90vh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -196,6 +197,7 @@ th, td {
 .form {
     position: absolute;
     opacity: 0.9;
+    height: 520px;
     max-width: 400px;
     width: 100%;
     padding: 30px;
@@ -216,25 +218,25 @@ th, td {
 header {
     font-size: 28px;
     font-weight: 600;
-    color: #232837;
+    color: steelblue;
     text-align: center;
+    margin-top:-10px;
 }
 
 form {
-  
 }
 
 .form .field {
     position: relative;
     height: 50px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 13px;
     border-radius: 6px;
 }
 
 .field input,
 .field button {
-    height: 100%;
+    height: 70%;
     width: 100%;
     border: none;
     font-size: 16px;
@@ -319,5 +321,3 @@ form {
     align-items: center;
     justify-content: center;
 }
-
-

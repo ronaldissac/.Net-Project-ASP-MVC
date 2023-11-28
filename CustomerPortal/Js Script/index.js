@@ -1,47 +1,4 @@
-﻿@model List<CustomerPortal.Models.Customer>
-<link rel="stylesheet" href="~/Css/Main.css" />
-<link rel="stylesheet" href="~/Css/Index.css" />
-<link rel="stylesheet" href="path-to-bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<script src="~/Js Script/index.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<div class="">
-    <div id="">
-        <table class="table table-primary">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                </tr>
-            </thead>
-            <tbody id="customer-details">
-            </tbody>
-        </table>
-    </div>
-    <div id="editModal" class="modal dialog" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Email</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="closeModal()" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Enter New Mail Id:</p>
-                    <input type="text" id="Mail" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
-                    <button type="button" class="btn btn-primary btn-success" id="savebtn">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<script>
-
+﻿
 $(document).ready(function () {
     $.ajax({
         url: '@Url.Action("Details", "Home")',
@@ -88,8 +45,7 @@ function closeModal() {
 
 $(document).ready(function () {
     $('#savebtn').click(function () {
-        var mail = document.getElementById('Mail');
-        var maiddata = mail
+        var mail = document.getElementById('Mail').value;
         if (mail.trim() === '') {
             alert('Enter mail Id');
             return false;
@@ -112,5 +68,3 @@ $(document).ready(function () {
         }
     });
 });
-
-</script>
