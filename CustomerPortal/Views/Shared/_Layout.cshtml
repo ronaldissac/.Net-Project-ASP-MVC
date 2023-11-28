@@ -3,29 +3,36 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title Omega shipping</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/Css/Main.css" />
+    <script>
 
+        if (@Session["customerID"] === null) {
+            alert('Session Expired Please Login again')
+            window.location = 'Login/LogOut';
+        }   
+    </script>
 </head>
-<body>
-    <div class="back-img img-fluid">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-secondary">
+<body class="Body">
+    <div class="back-img img-fluid head">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm">
             <div class="container">
-                @Html.ActionLink("Omega Shipping", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Export", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Import", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Payment", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Logout", "LogOut", "Login", new { area = "" }, new { @class = "nav-link" })</li>
-                    </ul>
-                </div>
+                @Html.ActionLink("Omega Shipping", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "color:whitesmoke" })
+                @*<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Export", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Import", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Payment", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Logout", "LogOut", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                        </ul>
+                    </div>*@
                 <div style="color:whitesmoke">
                     Welcome @Session["customerName"] 👋 &nbsp;
                     <a href="@Url.Action("Contact", "Home")"><img src="~/Image/Profile.png" height="20" width="20" /></a>
@@ -34,13 +41,27 @@
             </div>
         </nav>
     </div>
-    <div class="container body-content bg-body">
-        @RenderBody()
-        <hr />
-        <footer style="text-align:center">
-            <p>&copy; @DateTime.Now.Year Omega Shipping,PVT. All rights are reserved.</p>
+        <div class="container Body-Content">
+            <div class="row bg-primary centered-nav">
+                <div class="col-sm-2"> @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-items nav-link" })</div>
+                <div class="col-sm-2"> @Html.ActionLink("Export", "About", "Home", new { area = "" }, new { @class = "nav-items nav-link" })</div>
+                <div class="col-sm-2"> @Html.ActionLink("Import", "Contact", "Home", new { area = "" }, new { @class = "nav-items nav-link" })</div>
+                <div class="col-sm-2"> @Html.ActionLink("Payment", "Contact", "Home", new { area = "" }, new { @class = "nav-items nav-link" })</div>
+                <div class="col-sm-2"> @Html.ActionLink("Logout", "LogOut", "Login", new { area = "" }, new { @class = "nav-items nav-link" })</div>
+            </div>
+            <div class="main-Content">
+                @RenderBody()
+
+            </div>
+
+
+        </div>
+    <div class="footer">
+        <footer>
+            <p>&copy; @DateTime.Now.Year Omega Shipping PVT. All rights are reserved.</p>
         </footer>
     </div>
+   
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -62,13 +83,5 @@
     // Call the function to start the countdown
     updateSessionCountdown();
     </script>
-
-    <style>
-        .back-img {
-            background-image: url('../Image/shippic.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-    </style>
 </body>
 </html>

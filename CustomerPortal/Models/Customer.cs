@@ -6,12 +6,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Security.Cryptography;
 
 namespace CustomerPortal.Models
 {
     public class Customer
     {
-         public  string server = ConfigurationManager.ConnectionStrings["dis"].ConnectionString;
+         protected  static  string server = ConfigurationManager.ConnectionStrings["dis"].ConnectionString;
         public string CustomerName { get; set; }
 
         public string CustomerEmail { get; set; }
@@ -20,7 +21,7 @@ namespace CustomerPortal.Models
 
         public string CustomerId { get; set; }
         public string CustomerPassword { get; set; }
-      
+
       public List<Customer> NewCustomer()
        {
 
