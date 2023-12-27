@@ -1,70 +1,66 @@
-﻿
-$(document).ready(function () {
-    $.ajax({
-        url: '@Url.Action("Details", "Home")',
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            renderCustomerDetails(data);
-        },
-        error: function () {
-            alert('Session Expired Please Relogin');
-        }
-    });
+﻿//JS Functions for EMAIL AND PHONE UPDATE
 
-    function renderCustomerDetails(data) {
-        var detailsContainer = $('#customer-details');
-        detailsContainer.empty();
+function renderCustomerDetails(data) {
+    var detailsContainer = $('#customer-details');
+    detailsContainer.empty();
 
-        if (data.length > 0) {
-            $.each(data, function (index, customer) {
-                var html = '<tr>';
-                html += '<td>' + customer.CustomerName + '</td>';
-                html += '<td>' + customer.CustomerEmail + ' <a href="#" class="edit-link"><i class="fas fa-edit"></i></a></td>';
-                html += '<td>' + customer.CustomerPhone + ' <a href="#" class="edit-link"><i class="fas fa-edit"></i></a></td>';
-                html += '</tr>';
-                detailsContainer.append(html);
-            });
-        } else {
-            detailsContainer.html('No customer details found.');
-        }
+    if (data.length > 0) {
+        $.each(data, function (index, customer) {
+            var html = '<tr>';
+            html += '<td>' + customer.CustomerName + '</td>';
+            html += '<td>' + customer.CustomerEmail + ' <a href="" class="edit-Mail"><i class="fas fa-edit"></i></a></td>';
+            html += '<td>' + customer.CustomerPhone + ' <a href="#" class="edit-Phone"><i class="fas fa-edit"></i></a></td>';
+            html += '</tr>';
+            detailsContainer.append(html);
+        });
+        $('#HidCustomerID').val(data[0].ID);
+    } else {
+        detailsContainer.html('No customer details found.');
     }
-
-    $(document).on('click', '.edit-link', function (e) {
-        e.preventDefault();
-        editModal.style.display = 'block';
-    });
+}
+$(document).on('click', '.edit-Phone', function (e) {
+    e.preventDefault();
+    $('#EditPhone').modal('show');
+    $('#EditMail').modal('hide');
 });
-function closeModal() {
-    var editModal = document.getElementById('editModal');
-    var mailInput = editModal.querySelector('#Mail');
-    mailInput.value = '';
-    editModal.style.display = 'none';
+$(document).on('click', '.edit-Mail', function (e) {
+    e.preventDefault();
+    $('#EditMail').modal('show');
+    $('#EditPhone').modal('hide');
+});
+function closeModal(id) {
+    var MailInput = $('#EditMail').find('#MailID');
+    var PhoneInput = $('#EditPhone').find('#PhoneID');
+
+    if (id === 1) {
+        MailInput.val('');
+        $('#msg').text('');
+        $('#EditMail').modal('hide');
+
+    } else if (id === 2) {
+        PhoneInput.val('');
+        $('#msg1').text('');
+        $("#EditPhone").modal('hide');
+    }
 }
 
+function isValidEmail(email) {
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(email))
+        return true;
+    else if (email.trim() === '' || email === null)
+        return false;
+    else
+        return false;
+}
 
-$(document).ready(function () {
-    $('#savebtn').click(function () {
-        var mail = document.getElementById('Mail').value;
-        if (mail.trim() === '') {
-            alert('Enter mail Id');
-            return false;
-        } else {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("SaveMail", "Home")',
-                data: { email: mail },
-                success: function (response) {
-                    if (response.success) {
-                        alert('Record saved');
-                    } else {
-                        alert('Failed to save record');
-                    }
-                },
-                error: function () {
-                    alert('An error occurred while saving the record');
-                }
-            });
-        }
-    });
-});
+function isValidPhoneNumber(phoneNumber) {
+    var phonePattern = /^\d{10}$/;
+    if (phoneNumber === null || phoneNumber.trim() === '')
+        return false;
+    else if (phonePattern.test(phoneNumber))
+        return true
+    else
+        return false
+}
+

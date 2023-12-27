@@ -18,7 +18,7 @@ namespace CustomerPortal.Models
         public string CustomerEmail { get; set; }
 
         public string CustomerPhone { get; set; }
-
+        public int ID { get; set; }
         public string CustomerId { get; set; }
         public string CustomerPassword { get; set; }
 
@@ -31,7 +31,7 @@ namespace CustomerPortal.Models
         {
             try
             {
-                bool isValid = false;
+                bool IsValid = false;
                 using (SqlConnection connection = new SqlConnection(server))
                 {
                     SqlCommand command = new SqlCommand("ValidateCustomer", connection);
@@ -43,29 +43,22 @@ namespace CustomerPortal.Models
                     {
                         if (reader.Read())
                         {
-                            isValid = (bool)reader["IsValid"];
+                            IsValid = (bool)reader["IsValid"];
                             CustomerName = reader["CustomerName"].ToString();
                             
                         }
                         else
                         {
-                            isValid = false;
+                            IsValid = false;
                         }
                     }
                     connection.Close();
-                    if (isValid is true)
-                    {
 
-                        return true;
-                    }
+                    if (IsValid)
+                    return true;
                     else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-               
-               
-               
             } 
             catch (Exception)
             {

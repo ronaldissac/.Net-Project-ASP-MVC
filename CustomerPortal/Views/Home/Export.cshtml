@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    .Content {
+        font-size: 14px;
+    }
+
+        .Content table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            .Content table td input[type="text"] {
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+                text-transform: uppercase;
+                font-size: 10px;
+            }
+</style>
+<script>
+    function OpenPage(id) {
+        switch (id) {
+            case 1:
+                $("#bkgtbl").removeAttr("hidden");
+                $("#Invoice, #Receipt,").attr("hidden", true);
+                break;
+            case 2:
+                
+                break;
+            default:
+                $("#bkgtbl").css("display", "block");
+                break;
+        }
+    }
+
+</script>
+<main aria-labelledby="title">
+    <table class="table table-light table-primary">
+        <tbody>
+            <tr>
+                <td>
+                    <button type="button" id="bkg" class="btn-primary" onclick="OpenPage(1)">Booking</button>
+                    <a href="javascript:void(0)" onclick="OpenPage(1)">New Booking</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0)" onclick="OpenPage(2)">Invoice</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0)" onclick="OpenPage(3)">Receipt</a>
+                </td>
+                <td>
+                    <a href="javascript:void(0)" onclick="OpenPage(4)">Bill of Lading</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-light Content Content table">
+        <tbody id="bkgtbl" hidden>
+            <tr>
+                <td>Shipper<font color="red">*</font>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="SName" /></td>
+                <td>Place of Booking<font color="red">*</font>&nbsp;&nbsp;&nbsp;<input type="text" id="PobId" /></td>
+                <td>Payer<font color="red">*</font>&nbsp;&nbsp;&nbsp;<input type="text" id="PayerName" /></td>
+                <td>Consignee<font color="red">*</font>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="ConsigneeName" /></td>
+            </tr>
+        </tbody>
+
+        <tbody id="Invoice" hidden>
+            <tr>
+                <td>Shipper<font color="red">*</font>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="SName" /></td>
+                <td>Place of Booking<font color="red">*</font>&nbsp;&nbsp;&nbsp;<input type="text" id="PobId" /></td>
+                <td>Payer<font color="red">*</font>&nbsp;&nbsp;&nbsp;<input type="text" id="PayerName" /></td>
+                <td>Consignee<font color="red">*</font>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="ConsigneeName" /></td>
+            </tr>
+        </tbody>
+
+        <tbody id="Receipt" hidden>
+            <tr>
+                <td>Shipper<font color="red">*</font>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="SName" /></td>
+                <td>Place of Booking<font color="red">*</font>&nbsp;&nbsp;&nbsp;<input type="text" id="PobId" /></td>
+                <td>Payer<font color="red">*</font>&nbsp;&nbsp;&nbsp;<input type="text" id="PayerName" /></td>
+                <td>Consignee<font color="red">*</font>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="ConsigneeName" /></td>
+            </tr>
+        </tbody>
+
+        <tbody id="bl" hidden>
+            <tr>
+                <td>Shipper<font color="red">*</font>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="SName" /></td>
+                <td>Place of Booking<font color="red">*</font>&nbsp;&nbsp;&nbsp;<input type="text" id="PobId" /></td>
+                <td>Payer<font color="red">*</font>&nbsp;&nbsp;&nbsp;<input type="text" id="PayerName" /></td>
+                <td>Consignee<font color="red">*</font>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="ConsigneeName" /></td>
+            </tr>
+        </tbody>
+    </table>
+
+</main>

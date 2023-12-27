@@ -33,7 +33,7 @@ namespace CustomerPortal.Controllers
                 Session["customerID"] = customer.CustomerId;
                 Session["customerName"] = customer.CustomerName;
                 FormsAuthentication.SetAuthCookie(customer.CustomerId, true);
-                return RedirectToAction("index", "Home");
+                return RedirectToAction("Index", "Home");
 
             }
             else

@@ -1,11 +1,22 @@
 ﻿@model List<CustomerPortal.Models.Customer>
 <link rel="stylesheet" href="~/Css/Main.css" />
 <link rel="stylesheet" href="~/Css/Index.css" />
-<link rel="stylesheet" href="path-to-bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/Content/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="~/Js Script/index.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<div class="">
+<style>
+    th {
+        text-align: center;
+    }
+
+    tr {
+        text-align: center;
+    }
+</style>
+<div>
     <div id="">
         <table class="table table-primary">
             <thead>
@@ -19,29 +30,49 @@
             </tbody>
         </table>
     </div>
-    <div id="editModal" class="modal dialog" tabindex="-1">
+    <div id="EditMail" class="modal dialog" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Email</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="closeModal()" aria-label="Close"></button>
+                    <h5 class="modal-title text-center" style="color:cornflowerblue;font-family:'Times New Roman'">Update Email address</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" onclick="closeModal(1)" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Enter New Mail Id:</p>
-                    <input type="text" id="Mail" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
-                    <button type="button" class="btn btn-primary btn-success" id="savebtn">Save</button>
+                    <input type="text" id="MailID" class="form-control" />
+                    <br>
+                    <div class="modal-footer">
+                        <label id="msg" style="color:red;text-align:center"></label>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal(1)">Close</button>
+                        <button type="button" class="btn btn-primary btn-success" onclick="SaveEmail()">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+        </div>
+        <div id="EditPhone" class="modal dialog" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" style="color:cornflowerblue;font-family:'Times New Roman'">Update Phone No</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" onclick="closeModal(2)" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="PhoneID" class="form-control" />
+                        <br>
+                        <div class="modal-footer">
+                            <label id="msg1" style="color:red;text-align:center"></label>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal(2)">Close</button>
+                            <button type="button" class="btn btn-primary btn-success" onclick="SavePhone()">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           </div>
+        <input id="HidCustomerID" type="hidden" value="" />
 </div>
+   
 
 <script>
-
 $(document).ready(function () {
     $.ajax({
         url: '@Url.Action("Details", "Home")',
@@ -49,59 +80,88 @@ $(document).ready(function () {
         dataType: 'json',
         success: function (data) {
             renderCustomerDetails(data);
-        },
-        error: function () {
-            alert('Session Expired Please Relogin');
         }
     });
-
-    function renderCustomerDetails(data) {
-        var detailsContainer = $('#customer-details');
-        detailsContainer.empty();
-
-        if (data.length > 0) {
-            $.each(data, function (index, customer) {
-                var html = '<tr>';
-                html += '<td>' + customer.CustomerName + '</td>';
-                html += '<td>' + customer.CustomerEmail + ' <a href="#" class="edit-link"><i class="fas fa-edit"></i></a></td>';
-                html += '<td>' + customer.CustomerPhone + ' <a href="#" class="edit-link"><i class="fas fa-edit"></i></a></td>';
-                html += '</tr>';
-                detailsContainer.append(html);
-            });
-        } else {
-            detailsContainer.html('No customer details found.');
-        }
-    }
-
-    $(document).on('click', '.edit-link', function (e) {
-        e.preventDefault();
-        editModal.style.display = 'block';
-    });
+    $('#EditMail').modal();
+    $('#EditPhone').modal();
 });
-function closeModal() {
-    var editModal = document.getElementById('editModal');
-    var mailInput = editModal.querySelector('#Mail');
-    mailInput.value = '';
-    editModal.style.display = 'none';
-}
+//SAVE EMAIL
+     function SaveEmail() {
+         var mail = $('#MailID').val();
+         const Type = 1;
+    var HidId = $('#HidCustomerID').val();
 
+         if (!isValidEmail(mail)) {
+             $('#msg').text('*Please enter a valid email address*');
+             return false;
+         }
+         else {
+         $('#msg').hide();
+            $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveMail", "Home")',
+            data: { id: HidId, Type: Type, data: mail },
+            success: function (response) {
+              if (response.success) {
+                 alert('Record saved');
+                 $.ajax({
+                     url: '@Url.Action("Details", "Home")',
+                     type: 'GET',
+                     dataType: 'json',
+                     success: function (data) {
+                         renderCustomerDetails(data);
+                     },
+                     error: function() {
+                         alert('An error occurred while fetching customer details');
+                     }
+                 });
+                 closeModal(1);
+              }
+              else {
+                 alert('Failed to save record');
+              }
+     },
+     error: function (xhr, status, error) {
+         alert('An error occurred while saving the record');
+            }
+         });
+     }
 
-$(document).ready(function () {
-    $('#savebtn').click(function () {
-        var mail = document.getElementById('Mail');
-        var maiddata = mail
-        if (mail.trim() === '') {
-            alert('Enter mail Id');
+     }
+
+//SAVE PHONE
+    function SavePhone() {
+        var Phone = $('#PhoneID').val()
+        const Type = 2;
+        var HidID = $('#HidCustomerID').val();
+
+        if (!isValidPhoneNumber(Phone)) {
+            $('#msg1').text('*Please enter a vaild number*');
             return false;
-        } else {
+        }
+        else {
+            $('#msg1').hide();
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("SaveMail", "Home")',
-                data: { email: mail },
+                url: '@Url.Action("SavePhone", "Home")',
+                data: { id: HidID, Type: Type, Data: Phone },
                 success: function (response) {
                     if (response.success) {
                         alert('Record saved');
-                    } else {
+                        $.ajax({
+                            url: '@Url.Action("Details", "Home")',
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                renderCustomerDetails(data);
+                            },
+                            error: function () {
+                                alert('An error occurred while fetching customer details');
+                            }
+                        });
+                        closeModal(2);
+                    }
+                    else {
                         alert('Failed to save record');
                     }
                 },
@@ -110,7 +170,5 @@ $(document).ready(function () {
                 }
             });
         }
-    });
-});
-
+    }
 </script>

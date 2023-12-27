@@ -69,8 +69,7 @@
 }
 
 /* CSS for the modal */
-/*.modal {
-    display: none;
+/*modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -79,8 +78,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center; 
-}
-*/
+}*/
 /*.modal-content {
     position: absolute;*/
    /* top: 50%;

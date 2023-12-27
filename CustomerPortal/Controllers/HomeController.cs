@@ -9,8 +9,10 @@ using CustomerPortal.Models;
 namespace CustomerPortal.Controllers
 {
     [Authorize]
+    [SessionExpire]
     public class HomeController : Controller
     {
+        Home home = new Home();
         [HttpGet]
         public ActionResult Index()
         {
@@ -20,10 +22,10 @@ namespace CustomerPortal.Controllers
         [HttpGet]
         public ActionResult Details()
         {
-            Home home = new Home();
+            //Home home = new Home();
             try
             {
-                if (Session["customerID"] != null)
+                if (Session["customerID"].ToString() != null)
                 {
                     List<Customer> Details = home.GetDetails(Session["customerID"].ToString());
                     return Json(Details, JsonRequestBehavior.AllowGet);
@@ -45,39 +47,60 @@ namespace CustomerPortal.Controllers
 
         }
 
-        public ActionResult About()
+        [HttpGet]
+        public ActionResult Export()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult Export(string id)
+        {
+            if(!string.IsNullOrEmpty(id)) 
+            {
+            }
+            return View(id);
+        }
+        public ActionResult Import()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
 
-     
-        public JsonResult SaveMail(string mail)
+
+        public ActionResult SaveMail(int id, int Type, string Data)
         {
             try
             {
-                if (mail != null)
+                if (home.Update(id, Type, Data))
                 {
                     return Json(new { success = true });
                 }
                 else
-                {
                     return Json(new { success = false });
-                }
-
             }
-            catch
+            catch(Exception ex)
             {
-                // Handle any errors and return a JSON response indicating failure
-                return Json(new { success = false });
+                return JavaScript(ex.Message);
+            } 
+        }
+        public ActionResult SavePhone(int id,int Type, string Data)
+        {
+            try
+            {
+                if (home.Update(id, Type, Data))
+                {
+                    return Json(new { success = true });
+                }
+                else
+                    return Json(new { success = false });
+            }
+            catch(Exception ex)
+            {
+                return JavaScript(ex.Message);
             }
         }
     }
